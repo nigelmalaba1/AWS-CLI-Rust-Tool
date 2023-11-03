@@ -1,4 +1,4 @@
-![CI/CD Pipeline](https://github.com/athletedecoded/rust-s3-cli/actions/workflows/deploy.yml/badge.svg)
+
 
 # AWS S3 Rust CLI Tool
 
