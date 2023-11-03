@@ -12,7 +12,12 @@ The current [AWS CLI](https://github.com/aws/aws-cli/tree/v2) is written in Pyth
 
 2. Configure your [~/.aws/credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where) with environment variables: `aws_access_key_id`, `aws_secret_access_key` and `region`
 
-## Useage
+## Usage
+
+## Download a binary from a Github Repository**
+```
+cargo run -- download --repo <REPO>
+```
 
 **Create a Deep Learning Base AMI Spot Instance**
 ```
@@ -62,15 +67,10 @@ $ cargo run get --bucket <bucket_name> --key <object_key>
 # ex: cargo run get --bucket ids721 --key test.jpg
 ```
 
-**Download a binary from a Github Repository**
-
-```
-cargo run -- download --repo <REPO>
-```
 
 ## CI/CD
 
-Github Actions configured in [.github/workflows/rust.yml](.github/workflows/rust.yml)
+Github Actions configured in [.github/workflows/rust.yml](.github/workflows/rust.yml](https://github.com/nigelmalaba1/AWS-CLI-Rust-Tool/blob/master/.github/workflows/deploy.yml)
 
 **Build Executable**
 ```
