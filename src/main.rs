@@ -93,7 +93,8 @@ async fn main() {
             let output = Command::new("wget")
                 .arg("-O")
                 .arg("quantized-cpu")
-                .arg(&format!("https://github.com/{}/releases/latest/download/quantized-cpu", repo))
+                //.arg(&format!("https://github.com/athletedecoded/cookbook-binaries/raw/main/binaries/cpu/quantized?download=", repo))
+                .arg(&format!("https://github.com/athletedecoded/cookbook-binaries/raw/main/binaries/cpu/quantized?download={}", repo))
                 .output()
                 .expect("Failed to download binary from GitHub");
             println!("{:?}", output);

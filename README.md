@@ -62,6 +62,12 @@ $ cargo run get --bucket <bucket_name> --key <object_key>
 # ex: cargo run get --bucket ids721 --key test.jpg
 ```
 
+**Download a binary from a Github Repository**
+
+```
+cargo run -- download --repo <REPO>
+```
+
 ## CI/CD
 
 Github Actions configured in [.github/workflows/rust.yml](.github/workflows/rust.yml)
