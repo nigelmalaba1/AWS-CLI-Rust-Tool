@@ -1,8 +1,11 @@
 
 
-# AWS S3 Rust CLI Tool
+# LLM Rust CLI Tool
 
-The current [AWS CLI](https://github.com/aws/aws-cli/tree/v2) is written in Python. For this project I have built a mini AWS S3 CLI using Rust which supports CRUD operations for buckets and objects.
+- AWS S3 CLI using Rust which supports CRUD operations for buckets and objects.
+- Rust CLI that downloads LLM binaries as artifacts from Github and runs them locally
+- Rust CLI that spins up an AWS spot instance to run a Large Language Model
+
 
 ![image](./assets/s3-cli.png)
 
