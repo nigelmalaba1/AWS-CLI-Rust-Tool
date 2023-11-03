@@ -9,7 +9,7 @@
 
 ![image](./assets/s3-cli.png)
 
-## Setup
+## AWS CLI Setup
 
 1. Create an [AWS IAM User Policy for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-iam-awsmanpol.html)
 
@@ -17,7 +17,7 @@
 
 ## Usage
 
-## Download a binary from a Github Repository**
+## Download LLM binary as an artifact in a Github Repository
 ```
 cargo run -- download --repo <REPO>
 ```
@@ -88,8 +88,8 @@ $ make release
 - [x] Initialise Rust project with [AWS SDK for Rust](https://github.com/awslabs/aws-sdk-rust)
 - [x] Establish basic AWS client connection to list S3 buckets
 - [x] Add clap command line parsing for arguments (bucket name, local file name)
-- [x] Bucket fxns: list, create new, check if exists, delete if empty
-- [x] Object fxns: list objects in bucket, upload to existing bucket, upload to new bucket, delete
+- [x] Bucket commands: list, create new, check if exists, delete if empty
+- [x] Object commands: list objects in bucket, upload to existing bucket, upload to new bucket, delete
 - [x] CI/CD with Github Actions
 
 ## References
@@ -98,3 +98,4 @@ $ make release
 * [AWS Toolkit Credential Profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where)
 * [AWS Credentials for VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html)
 * [AWS IAM User Policy for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-iam-awsmanpol.html)
+* https://github.com/athletedecoded/rust-s3-cli 
