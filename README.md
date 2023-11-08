@@ -1,18 +1,26 @@
 
 
-# AWS S3 Rust CLI Tool
+# LLM Rust CLI Tool
 
-The current [AWS CLI](https://github.com/aws/aws-cli/tree/v2) is written in Python. For this project I have built a mini AWS S3 CLI using Rust which supports CRUD operations for buckets and objects.
+- AWS S3 CLI using Rust which supports CRUD operations for buckets and objects.
+- Rust CLI that downloads LLM binaries as artifacts from Github and runs them locally
+- Rust CLI that spins up an AWS spot instance to run a Large Language Model
+
 
 ![image](./assets/s3-cli.png)
 
-## Setup
+## AWS CLI Setup
 
 1. Create an [AWS IAM User Policy for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-iam-awsmanpol.html)
 
 2. Configure your [~/.aws/credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where) with environment variables: `aws_access_key_id`, `aws_secret_access_key` and `region`
 
-## Useage
+## Usage
+
+## Download LLM binary as an artifact in a Github Repository
+```
+cargo run -- download --repo <REPO>
+```
 
 **Create a Deep Learning Base AMI Spot Instance**
 ```
@@ -62,15 +70,10 @@ $ cargo run get --bucket <bucket_name> --key <object_key>
 # ex: cargo run get --bucket ids721 --key test.jpg
 ```
 
-**Download a binary from a Github Repository**
-
-```
-cargo run -- download --repo <REPO>
-```
 
 ## CI/CD
 
-Github Actions configured in [.github/workflows/rust.yml](.github/workflows/rust.yml)
+Github Actions configured in [.github/workflows/rust.yml](.github/workflows/rust.yml](https://github.com/nigelmalaba1/AWS-CLI-Rust-Tool/blob/master/.github/workflows/deploy.yml)
 
 **Build Executable**
 ```
@@ -85,8 +88,8 @@ $ make release
 - [x] Initialise Rust project with [AWS SDK for Rust](https://github.com/awslabs/aws-sdk-rust)
 - [x] Establish basic AWS client connection to list S3 buckets
 - [x] Add clap command line parsing for arguments (bucket name, local file name)
-- [x] Bucket fxns: list, create new, check if exists, delete if empty
-- [x] Object fxns: list objects in bucket, upload to existing bucket, upload to new bucket, delete
+- [x] Bucket commands: list, create new, check if exists, delete if empty
+- [x] Object commands: list objects in bucket, upload to existing bucket, upload to new bucket, delete
 - [x] CI/CD with Github Actions
 
 ## References
@@ -95,3 +98,4 @@ $ make release
 * [AWS Toolkit Credential Profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where)
 * [AWS Credentials for VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html)
 * [AWS IAM User Policy for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-iam-awsmanpol.html)
+* https://github.com/athletedecoded/rust-s3-cli 
