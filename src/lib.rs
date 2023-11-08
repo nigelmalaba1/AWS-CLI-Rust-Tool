@@ -40,11 +40,23 @@ pub async fn request_spot_instance(user_data_script: &str) -> Result<(), RusotoE
     let region = Region::UsEast1;
     let ec2_client = Ec2Client::new(region);
 
+   /*  // Create a key pair
+    let key_pair_name = "my_key_pair"; // Provide your key pair name
+    match create_key_pair(&ec2_client, key_pair_name).await {
+        Ok(key_pair) => {
+            println!("Created key pair: {:?}", key_pair);
+            // Now you can proceed with your spot instance request
+            // request_spot_instance(&ec2_client).await;
+        }
+        Err(e) => eprintln!("Failed to create key pair: {}", e),
+    } */
+
     // Base64 encode the user data script
     let base64_script = encode(user_data_script);
     
     let launch_specification = RequestSpotLaunchSpecification {
-        image_id: Some("ami-0c47a507d2c485dff".to_string()), // Replace with your AMI ID.
+        //image_id: Some("ami-0c47a507d2c485dff".to_string()), 
+        image_id: Some("ami-0fc5d935ebf8bc3bc".to_string()),
         instance_type: Some("t2.micro".to_string()),
         user_data: Some(base64_script), // Add the user data script here
         ..Default::default()

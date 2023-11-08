@@ -26,6 +26,10 @@ cargo run -- download --repo <REPO>
 ```
 $ cargo run -- launch-instance
 ```
+**Launch AWS Spot Instance with User Data**
+```
+cargo run -- launch-instance --user-data "$(cat userdata.b64)" 
+```
 
 **List all S3 buckets**
 ```
