@@ -42,7 +42,11 @@ enum Commands {
         #[clap(short, long)]
         key: String,
     },
-    LaunchInstance,
+    LaunchInstance {
+    #[clap(short, long)]
+    user_data: String, // Add a field for user data
+    },
+
     Download {
         #[clap(short, long)]
         repo: String,
@@ -85,11 +89,26 @@ async fn main() {
         Some(Commands::Get { bucket, key }) => {
             s3cli::get_object(&client, &bucket, &key).await.unwrap();
         }
-        Some(Commands::LaunchInstance) => {
+        /* Some(Commands::LaunchInstance) => {
             s3cli::request_spot_instance().await.unwrap();
+        } */
+        Some(Commands::LaunchInstance { user_data }) => {
+            s3cli::request_spot_instance(&user_data).await.unwrap();
         }
 
         Some(Commands::Download { repo }) => {
+             /* // Download binary
+             download_binary(&repo).await?;
+
+             // Create AWS spot instance and get its public DNS
+             let instance_dns = s3cli::request_spot_instance().await.unwrap();
+ 
+             // Upload binary to instance
+             upload_binary_to_instance(&instance_dns).await?;
+         }
+
+         async fn download_binary(repo: &str) -> std::io::Result<()> {
+            // ... (download logic) */
             // Use wget to download the binary from GitHub
             let output = Command::new("wget")
                 .arg("-O")
@@ -105,6 +124,18 @@ let stderr = String::from_utf8_lossy(&output.stderr);
 println!("STDOUT: {}", stdout);
 println!("STDERR: {}", stderr);
         }
+        
+        /* async fn upload_binary_to_instance(instance_dns: &str) -> std::io::Result<()> {
+            let output = Command::new("scp")
+                .arg("-i")
+                .arg("../llm2.pem")
+                .arg("quantized-cpu")
+                .arg(format!("ec2-user@{}:/", instance_dns))
+                .output()?;
+            println!("Uploaded binary with output: {:?}", output);
+            Ok(())
+        } */
+    
 
         None => {
             println!("No subcommand was used");

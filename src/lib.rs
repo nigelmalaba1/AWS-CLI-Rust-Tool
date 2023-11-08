@@ -10,6 +10,8 @@ use tokio::io::copy;
 use rusoto_core::{Region, RusotoError};
 use rusoto_ec2::{Ec2, Ec2Client, RequestSpotInstancesRequest, RequestSpotLaunchSpecification};
 use rusoto_ec2::RequestSpotInstancesError;
+use base64::encode;
+//use rusoto_ec2::Instance;
 //use aws_sdk_s3::{Client as S3Client};
 
 
@@ -34,13 +36,17 @@ pub async fn client() -> Result<Client, Error> {
 }
 
 // EC2 Spot Instance Configuration
-pub async fn request_spot_instance() -> Result<(), RusotoError<RequestSpotInstancesError>> {
+pub async fn request_spot_instance(user_data_script: &str) -> Result<(), RusotoError<RequestSpotInstancesError>> {
     let region = Region::UsEast1;
     let ec2_client = Ec2Client::new(region);
+
+    // Base64 encode the user data script
+    let base64_script = encode(user_data_script);
     
     let launch_specification = RequestSpotLaunchSpecification {
         image_id: Some("ami-0c47a507d2c485dff".to_string()), // Replace with your AMI ID.
         instance_type: Some("t2.micro".to_string()),
+        user_data: Some(base64_script), // Add the user data script here
         ..Default::default()
     };
 
@@ -54,9 +60,17 @@ pub async fn request_spot_instance() -> Result<(), RusotoError<RequestSpotInstan
     // Send the Spot instance request.
     match ec2_client.request_spot_instances(spot_request).await {
         Ok(response) => {
+               /* // Extract instance ID from the response
+               let spot_instance_request = &response.spot_instance_requests.unwrap()[0];
+               let instance_id = spot_instance_request.instance_id.as_ref().unwrap();
+   
+               // Retrieve the instance details
+               let instance = get_instance_details(&ec2_client, instance_id).await?;
+               let  public_dns = instance.public_dns_name.unwrap_or_default();*/
+             
             println!("Spot instance requested successfully: {:?}", response);
             Ok(())
-        }
+        } 
         Err(err) => {
             eprintln!("Failed to request Spot instance: {:?}", err);
             Err(err)
@@ -64,37 +78,20 @@ pub async fn request_spot_instance() -> Result<(), RusotoError<RequestSpotInstan
     }
 }
 
+/* async fn get_instance_details(ec2_client: &Ec2Client, instance_id: &str) -> Result<Instance, RusotoError<RequestSpotInstancesError>> {
+    use rusoto_ec2::{DescribeInstancesRequest, Filter};
 
-    /* // EC2 Spot Instance Configuration
-    let region = Region::UsEast1;
-    let ec2_client = Ec2Client::new(region);
-    
-    let launch_specification = RequestSpotLaunchSpecification {
-        image_id: Some("ami-0c47a507d2c485dff".to_string()), // Replace with your AMI ID.
-        instance_type: Some("t2.micro".to_string()),
+    let request = DescribeInstancesRequest {
+        instance_ids: Some(vec![instance_id.to_string()]),
         ..Default::default()
     };
 
-    let spot_request = RequestSpotInstancesRequest {
-        spot_price: Some("0.01".to_string()), // Max price per instance hour.
-        instance_count: Some(1),
-        launch_specification: Some(launch_specification),
-        ..Default::default()
-    };
-
-    // Send the Spot instance request.
-    match ec2_client.request_spot_instances(spot_request).await {
-        Ok(response) => {
-            println!("Spot instance requested successfully: {:?}", response);
-        }
-        Err(RusotoError::Service(err)) => {
-            eprintln!("Failed to request Spot instance: {:?}", err);
-        }
-        Err(err) => {
-            eprintln!("Failed to request Spot instance: {:?}", err);
-        }
-    } */
-
+    let result = ec2_client.describe_instances(request).await
+    .map_err(|e| RusotoError::from(e))?;
+    let reservations = result.reservations.unwrap_or_default();
+    let instances = &reservations[0].instances.unwrap_or_default();
+    Ok(instances[0].clone())
+} */
 
 /* -----------------------------
     BUCKET FNXNS
